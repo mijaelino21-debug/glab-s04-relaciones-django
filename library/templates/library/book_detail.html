@@ -1,0 +1,16 @@
+<h1>{{ book.title }}</h1>
+<p>Author: {{ book.author.name }}</p>
+
+<h3>Categories</h3>
+<ul>
+  {% for cat in book.categories.all %}
+    <li>{{ cat.name }}</li>
+  {% endfor %}
+</ul>
+
+<h3>Publishers</h3>
+<ul>
+  {% for pub in book.publication_set.all %}
+    <li>{{ pub.publisher.name }} - ed. {{ pub.edition }} ({{ pub.publication_date }})</li>
+  {% endfor %}
+</ul>
