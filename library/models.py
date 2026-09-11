@@ -47,6 +47,8 @@ class Publisher(models.Model):
 class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='books')
+    categories = models.ManyToManyField(Category, related_name='books')
+    publishers = models.ManyToManyField(Publisher, through='Publication', related_name='books')
 
     class Meta:
         verbose_name = 'Book'
@@ -54,3 +56,17 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
+
+class Publication(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
+    publication_date = models.DateField()
+    edition = models.PositiveIntegerField(default=1)
+
+    class Meta:
+        verbose_name = 'Publication'
+        verbose_name_plural = 'Publications'
+        unique_together = ('book', 'publisher', 'edition')
+
+    def __str__(self):
+        return f"{self.book.title} - {self.publisher.name} (Ed: {self.edition})"
