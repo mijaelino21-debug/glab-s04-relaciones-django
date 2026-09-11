@@ -46,7 +46,7 @@ class Publisher(models.Model):
 
 class Book(models.Model):
     title = models.CharField(max_length=200)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='books')
+    author = models.ForeignKey(Author, on_delete=models.PROTECT, related_name='books')
     categories = models.ManyToManyField(Category, related_name='books')
     publishers = models.ManyToManyField(Publisher, through='Publication', related_name='books')
 
