@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand
 from news.models import Author, Category, Article
 from django.utils import timezone
+from django.utils.text import slugify
 from django.core.files.base import ContentFile
 from PIL import Image, ImageDraw, ImageFont
 import io
@@ -16,7 +17,7 @@ class Command(BaseCommand):
 
         # Create Categories
         categories = ['Tecnología', 'Deportes', 'Cultura']
-        category_objs = [Category.objects.create(name=c, slug=c.lower()) for c in categories]
+        category_objs = [Category.objects.create(name=c, slug=slugify(c)) for c in categories]
 
         # Create Authors
         authors = [

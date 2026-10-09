@@ -7,7 +7,7 @@
     <p>{{ article.summary|truncatewords:25 }}</p>
     <p>Categorías:
         {% for category in article.categories.all %}
-        <a href="{% url 'news:category' category.slug %}" class="tag">{{ category.name }}</a>{% if not forloop.last %}, {% endif %}
+        <a href="{% url 'news:category' category.slug|slugify %}" class="tag">{{ category.name }}</a>{% if not forloop.last %}, {% endif %}
         {% endfor %}
     </p>
 </article>
