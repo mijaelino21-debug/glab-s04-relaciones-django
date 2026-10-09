@@ -30,6 +30,7 @@ class Person(models.Model):
 class Movie(models.Model):
     title = models.CharField(max_length=200)
     release_year = models.PositiveIntegerField()
+    director = models.ForeignKey(Person, null=True, blank=True, on_delete=models.SET_NULL, related_name='directed_movies')
     synopsis = models.TextField(blank=True)
     poster = models.ImageField(upload_to='posters/', null=True, blank=True)
     genres = models.ManyToManyField(Genre, related_name='movies')
