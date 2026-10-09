@@ -1,0 +1,30 @@
+{% extends 'movies/base.html' %}
+{% block content %}
+<nav class="chips">
+  <a class="chip {% if not selected %}active{% endif %}" href="{% url 'movies:recommendations' %}">Todos</a>
+  {% for g in genres %}
+    <a class="chip {% if selected and selected.pk == g.pk %}active{% endif %}"
+       href="{% url 'movies:recommendations' %}?genre={{ g.pk }}">{{ g.name }} ({{ g.movie_count }})</a>
+  {% endfor %}
+</nav>
+
+<h2>{% if selected %}Recomendaciones: {{ selected.name }}{% else %}Las mejor valoradas{% endif %}</h2>
+
+{% if movies %}
+<div class="grid">
+  {% for m in movies %}
+  <a class="card" href="{% url 'movies:movie_detail' m.pk %}">
+    {% if m.poster %}<img src="{{ m.poster.url }}" alt="{{ m.title }}">{% else %}<div class="poster-ph">{{ m.title }}</div>{% endif %}
+    <div class="card-body">
+      <h3>{{ m.title }}</h3>
+      <div class="year">{{ m.release_year }}{% if m.director %} · {{ m.director.name }}{% endif %}</div>
+      <div>{% for g in m.genres.all %}<span class="tag">{{ g.name }}</span>{% endfor %}</div>
+      <p><span class="score">★ {{ m.avg_score|floatformat:1 }}</span> <span class="year">({{ m.ratings_count }} reseñas)</span></p>
+    </div>
+  </a>
+  {% endfor %}
+</div>
+{% else %}
+<p class="empty">No hay películas valoradas todavía.</p>
+{% endif %}
+{% endblock %}

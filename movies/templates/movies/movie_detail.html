@@ -1,0 +1,24 @@
+{% extends 'movies/base.html' %}
+{% block title %}{{ movie.title }} — Cinema Vault{% endblock %}
+{% block content %}
+<p><a href="{% url 'movies:recommendations' %}">← Volver al listado</a></p>
+<div class="detail">
+  {% if movie.poster %}<img src="{{ movie.poster.url }}" alt="{{ movie.title }}">{% else %}<div class="poster-ph" style="aspect-ratio:2/3">{{ movie.title }}</div>{% endif %}
+  <div class="detail-info">
+    <h2>{{ movie.title }}</h2>
+    <div class="year">{{ movie.release_year }}{% if movie.director %} · Dirigida por {{ movie.director.name }}{% endif %}</div>
+    <div>{% for g in movie.genres.all %}<span class="tag">{{ g.name }}</span>{% endfor %}</div>
+    <p><span class="score">★ {{ movie.average_rating|default:"-" }}</span> <span class="year">({{ movie.ratings.count }} reseñas)</span></p>
+    <h3>Sinopsis</h3>
+    <p>{{ movie.synopsis }}</p>
+  </div>
+</div>
+<h3>Valoraciones individuales</h3>
+{% for r in movie.ratings.all %}
+  <div class="rating-box">
+    <span class="score">{{ r.score }}/10</span>
+    <span class="year" style="float:right">{{ r.created_at|date:"d M Y" }}</span>
+    <p>{{ r.comment }}</p>
+  </div>
+{% empty %}<p class="empty">Sin valoraciones.</p>{% endfor %}
+{% endblock %} 
