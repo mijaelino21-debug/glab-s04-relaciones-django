@@ -1,0 +1,13 @@
+<article>
+    {% if article.featured_image %}
+    <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" style="max-width: 200px;">
+    {% endif %}
+    <h2><a href="{% url 'news:detail' article.slug %}">{{ article.title }}</a></h2>
+    <p>{{ article.published_at|date:"d M Y" }} | Por {{ article.author.name }}</p>
+    <p>{{ article.summary|truncatewords:25 }}</p>
+    <p>Categorías:
+        {% for category in article.categories.all %}
+        <a href="{% url 'news:category' category.slug %}" class="tag">{{ category.name }}</a>{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+    </p>
+</article>

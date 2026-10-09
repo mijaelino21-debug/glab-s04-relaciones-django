@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}{{ article.title }}{% endblock %}
+{% block content %}
+    <h1>{{ article.title }}</h1>
+    <p>{{ article.published_at|date:"d M Y" }} | Por {{ article.author.name }}</p>
+    {% if article.featured_image %}
+    <img src="{{ article.featured_image.url }}" alt="{{ article.title }}" style="max-width: 400px;">
+    {% endif %}
+    <p>Categorías:
+        {% for category in article.categories.all %}
+        <a href="{% url 'news:category' category.slug %}">{{ category.name }}</a>{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+    </p>
+    <div>{{ article.body|linebreaks }}</div>
+{% endblock %}

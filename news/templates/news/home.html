@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Inicio{% endblock %}
+{% block content %}
+    <h1>Noticias</h1>
+    <div class="articles-grid">
+        {% for article in articles %}
+            {% include 'news/_article_card.html' %}
+        {% empty %}
+            <p>Todavía no hay noticias publicadas.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

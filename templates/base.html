@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %} - Noticias</title>
+    <link rel="stylesheet" href="{% static 'css/news.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="{% url 'news:home' %}">Portada</a>
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <aside>
+        {% block sidebar %}
+        <h3>Categorías</h3>
+        <ul>
+            {% for c in categories %}
+            <li><a href="{% url 'news:category' c.slug %}">{{ c.name }}</a></li>
+            {% empty %}
+            <li>No hay categorías.</li>
+            {% endfor %}
+        </ul>
+        {% endblock %}
+    </aside>
+</body>
+</html>

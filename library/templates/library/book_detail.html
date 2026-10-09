@@ -1,16 +1,126 @@
-<h1>{{ book.title }}</h1>
-<p>Author: {{ book.author.name }}</p>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ book.title }} - Detalles del Libro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #fdfcf0 0%, #e8e0c5 100%);
+            --card-bg: #ffffff;
+            --text-main: #3e362e;
+            --text-accent: #8b4513;
+            --chip-bg: #dccbb5;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
 
-<h3>Categories</h3>
-<ul>
-  {% for cat in book.categories.all %}
-    <li>{{ cat.name }}</li>
-  {% endfor %}
-</ul>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            animation: fadeIn 0.8s ease-out;
+        }
 
-<h3>Publishers</h3>
-<ul>
-  {% for pub in book.publication_set.all %}
-    <li>{{ pub.publisher.name }} - ed. {{ pub.edition }} ({{ pub.publication_date }})</li>
-  {% endfor %}
-</ul>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .book-card {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            font-family: 'Crimson Text', serif;
+            font-size: 2.5rem;
+            color: var(--text-accent);
+            margin-top: 0;
+            border-bottom: 2px solid var(--chip-bg);
+            padding-bottom: 10px;
+        }
+
+        .author {
+            font-weight: 600;
+            color: #555;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .author::before {
+            content: "—";
+            margin-right: 10px;
+            color: var(--text-accent);
+        }
+
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .chip {
+            background: var(--chip-bg);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #4a3728;
+        }
+
+        .publications {
+            margin-top: 30px;
+        }
+
+        .pub-card {
+            border: 1px solid #eee;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            background: #f9f7f2;
+        }
+
+        .pub-card h4 {
+            margin: 0 0 5px 0;
+            color: var(--text-accent);
+        }
+    </style>
+</head>
+<body>
+
+<div class="book-card">
+    <h1>{{ book.title }}</h1>
+    <div class="author">Autor: {{ book.author.name }}</div>
+
+    <h3>Categorías</h3>
+    <div class="chips">
+        {% for category in book.categories.all %}
+            <span class="chip">{{ category.name }}</span>
+        {% endfor %}
+    </div>
+
+    <div class="publications">
+        <h3>Editoriales</h3>
+        {% for pub in book.publication_set.all %}
+            <div class="pub-card">
+                <h4>{{ pub.publisher.name }} ({{ pub.publisher.country }})</h4>
+                <p>Fecha: {{ pub.publication_date }} | Edición: {{ pub.edition }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+</body>
+</html>
