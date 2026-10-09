@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('library/', include('library.urls')),
+    path('movies/', include('movies.urls')),
 ]
 
 if settings.DEBUG:
